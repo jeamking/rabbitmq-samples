@@ -11,9 +11,9 @@ import com.rabbitmq.client.Channel;
 /**
  *
  */
-public class RoutingSendDirect {
+public class RoutingDirectProducer {
 
-    private static final String EXCHANGE_NAME = "direct_logs";
+    private static final String EXCHANGE_NAME = "direct_exchange";
  // 路由关键字
  	private static final String[] routingKeys = new String[]{"info" ,"warning", "error"};
  	
@@ -26,10 +26,10 @@ public class RoutingSendDirect {
 //		声明交换器
         channel.exchangeDeclare(EXCHANGE_NAME, "direct");
 //		发送消息
-        for(String severity :routingKeys){
-        	String message = "Send the message level:" + severity;
-        	channel.basicPublish(EXCHANGE_NAME, severity, null, message.getBytes());
-        	System.out.println(" [x] Sent '" + severity + "':'" + message + "'");
+        for(String routingKey :routingKeys){
+        	String message = "log level-" + routingKey;
+        	channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
+        	System.out.println("send routingKey:" + routingKey + ",message:" + message + "");
         }
         channel.close();
         connection.close();

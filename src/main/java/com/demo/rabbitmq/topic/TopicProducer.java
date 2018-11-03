@@ -5,15 +5,15 @@
 package com.demo.rabbitmq.topic;
 
 /**
- *
+ * 模式匹配消费消息
  */
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
 
-public class TopicSend {
+public class TopicProducer {
 
-	private static final String EXCHANGE_NAME = "topic_logs";
+	private static final String EXCHANGE_NAME = "topic_exchange";
 
 	public static void main(String[] argv) {
 		Connection connection = null;
@@ -36,12 +36,11 @@ public class TopicSend {
 												"quick.orange.male.rabbit", 
 												"lazy.orange.male.rabbit"};
 //			发送消息
-	        for(String severity :routingKeys){
-	        	String message = "From "+severity+" routingKey' s message!";
-	        	channel.basicPublish(EXCHANGE_NAME, severity, null, message.getBytes());
-	        	System.out.println("TopicSend [x] Sent '" + severity + "':'" + message + "'");
+	        for(String routingsKey :routingKeys){
+	        	String message = "From "+routingsKey+" routingKey' s message!";
+	        	channel.basicPublish(EXCHANGE_NAME, routingsKey, null, message.getBytes());
+	        	System.out.println("Topic Send " + routingsKey + ":" + message);
 	        }
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
