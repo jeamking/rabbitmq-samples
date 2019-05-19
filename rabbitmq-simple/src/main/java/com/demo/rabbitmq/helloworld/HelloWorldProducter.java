@@ -31,6 +31,12 @@ public class HelloWorldProducter {
 	 */    
     channel.queueDeclare(QUEUE_NAME, false, false, false, null);
     String message = "Hello World1!";
+    /**
+     * @param exchange the exchange to publish the message to
+     * @param routingKey the routing key
+     * @param props other properties for the message - routing headers etc
+     * @param body the message body    
+     */
     channel.basicPublish("", QUEUE_NAME, null, message.getBytes("UTF-8"));
     System.out.println("P [x] Sent '" + message + "'");
 
